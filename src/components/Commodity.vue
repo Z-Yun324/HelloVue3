@@ -30,6 +30,27 @@ function deleteCom() {
 function addCom() {
   quantity.value += 1;
 }
+<script lang="ts" setup name="commodity">
+import { computed, ref } from "vue";
+//data no響應式
+let brand = "APPLE";
+let name = "IPONE16";
+let quantity = ref(0);
+let price = 50000;
+const comTotal = computed(() => quantity.value * price);
+//function
+function deleteCom() {
+  if (quantity.value > 0) {
+    quantity.value -= 1;
+    alert("已刪除");
+  } else {
+    alert("數量已為零");
+  }
+}
+function addCom() {
+  quantity.value += 1;
+  alert("已增加");
+}
 </script>
 
 <!--樣式-->
