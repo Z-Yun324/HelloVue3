@@ -13,7 +13,7 @@
 
 <script lang="ts" setup name="commodity">
 import { computed, ref } from "vue";
-//data no響應式
+//data
 let brand = "APPLE";
 let name = "IPONE16";
 let quantity = ref(0);
