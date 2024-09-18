@@ -1,34 +1,37 @@
 <!--HTML-->
 <template>
   <div class="commodity">
-    <h3>{{ brand }}</h3>
-    <h2>{{ name }}</h2>
-    <h2>數量 {{ quantity }}</h2>
-    <h2>價錢 $ {{ price }}</h2>
+    <h3>{{ apple_ipone16.brand }}</h3>
+    <h2>{{ apple_ipone16.name }}</h2>
+    <h2>數量 {{ apple_ipone16.quantity }}</h2>
+    <h2>價錢 $ {{ apple_ipone16.price }}</h2>
     <h2>總價錢 $ {{ comTotal }}</h2>
     <button @click="addCom">增加</button>
     <button @click="deleteCom">刪除</button>
+    <hr />
   </div>
 </template>
 
 <script lang="ts" setup name="commodity">
-import { computed, ref } from "vue";
+import { computed, reactive } from "vue";
 //data
-let brand = "APPLE";
-let name = "IPONE16";
-let quantity = ref(0);
-let price = 50000;
-const comTotal = computed(() => quantity.value * price);
+let apple_ipone16 = reactive({
+  brand: "APPLE",
+  name: "IPONE16",
+  quantity: 0,
+  price: 500000,
+});
+const comTotal = computed(() => apple_ipone16.quantity * apple_ipone16.price);
 //function
 function deleteCom() {
-  if (quantity.value > 0) {
-    quantity.value -= 1;
+  if (apple_ipone16.quantity > 0) {
+    apple_ipone16.quantity -= 1;
   } else {
     alert("數量已為零");
   }
 }
 function addCom() {
-  quantity.value += 1;
+  apple_ipone16.quantity += 1;
 }
 </script>
 
@@ -36,6 +39,6 @@ function addCom() {
 <style scoped>
 .commodity {
   background-color: #fff;
-  padding: 20px;
+  padding: 5px;
 }
 </style>
