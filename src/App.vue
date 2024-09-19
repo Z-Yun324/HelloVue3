@@ -1,24 +1,23 @@
 <template>
-  <div class="car">
+  <div class="app">
     <h1>購物車</h1>
-    <Commodity />
-    <Commodity />
-    <Commodity />
+    <Cart />
   </div>
 </template>
 
 <script lang="ts">
+import Cart from "./components/Cart.vue";
 import Commodity from "./components/Commodity.vue";
 
 export default {
   name: "App",
-  components: { Commodity },
+  components: { Commodity, Cart },
 };
 </script>
 
 <style>
-.car {
-  background-color: rgb(87, 187, 187);
+.app {
+  background-color: rgb(178, 214, 214);
   padding: 20px;
 }
 </style>
