@@ -1,7 +1,7 @@
 <!--HTML-->
 <template>
   <div class="cart">
-    <table v-if="cart.length > 0">
+    <table v-if="cartItems.length > 0">
       <thead>
         <tr>
           <th>商品名稱</th>
@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in cart" :key="item.id">
+        <tr v-for="item in cartItems" :key="item.id">
           <td>{{ item.name }}</td>
           <td>{{ item.price }}</td>
           <td>
@@ -38,8 +38,10 @@
 <!--JS/TS-->
 
 <script lang="ts" setup name="cart">
-import { computed, reactive } from "vue";
+import { commodity } from "@/models/commodity";
+import { computed } from "vue";
 //data
+/*
 let cart = reactive([
   {
     id: 1,
@@ -61,9 +63,13 @@ cart.forEach((item) => {
 });
 const totalAmount = computed(() =>
   cart.reduce((total, item) => total + item.totalPrice, 0)
-);
+);*/
+// 接收來自 App.vue 的 props，這裡是購物車的商品清單
+const props = defineProps<{
+  cartItems: commodity[];
+}>();
 //function
-
+/*
 function updateTotalPrice(item: {
   price: number;
   quantity: number;
@@ -77,6 +83,28 @@ function removeItem(id: number) {
     cart.findIndex((item) => item.id === id),
     1
   );
+}*/
+
+// emit 事件通知父組件
+const emit = defineEmits(["remove-from-cart"]);
+
+// 結帳總金額
+const totalAmount = computed(() =>
+  props.cartItems.reduce((total, item) => total + item.totalPrice, 0)
+);
+
+// 更新單個商品的總價
+function updateTotalPrice(item: {
+  price: number;
+  quantity: number;
+  totalPrice: number;
+}) {
+  item.totalPrice = item.price * item.quantity;
+}
+
+// 刪除購物車中的商品
+function removeItem(id: number) {
+  emit("remove-from-cart", id); // 通知父組件刪除商品
 }
 </script>
 
@@ -88,7 +116,7 @@ table {
 }
 th,
 td {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(115, 116, 121);
   padding: 10px;
   text-align: center;
 }
@@ -102,5 +130,12 @@ button {
 input[type="number"] {
   width: 50px;
   text-align: center;
+}
+/* 使用百分比來控制寬度，根據螢幕自動調整 */
+table,
+th,
+td,
+.summary {
+  max-width: 100%; /* 表格、內容自動調整 */
 }
 </style>
