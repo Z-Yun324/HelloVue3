@@ -1,22 +1,30 @@
 <template>
   <div class="app">
-    <h1>購物車</h1>
+    <!--
     <Commodity @add-to-cart="addToCart" />
-    <Cart :cartItems="cartItems" @remove-from-cart="removeFromCart" />
+    <Cart :cartItems="cartItems" @remove-from-cart="removeFromCart" /> -->
+    <nav>
+      <router-link to="/cart">購物車</router-link>
+      <router-link to="/">新增</router-link>
+    </nav>
+    <router-view
+      :cartItems="cartItems"
+      @remove-from-cart="removeFromCart"
+      @add-to-cart="addToCart"
+    ></router-view>
   </div>
 </template>
 
 <script lang="ts" setup name="App">
 import { commodity } from "@/models/commodity";
 import { ref } from "vue";
-import Cart from "./components/Cart.vue";
-import Commodity from "./components/Commodity.vue";
 
 // 購物車清單
 const cartItems = ref<commodity[]>([]);
 
 // 處理 Commodity 新增商品到購物車的事件
 function addToCart(product: commodity) {
+  console.log("Product added to cart:", product); // 加入這行
   // 檢查購物車中是否已有該商品
   const existingProduct = cartItems.value.find(
     (item) => item.name === product.name

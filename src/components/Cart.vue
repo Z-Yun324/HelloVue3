@@ -1,5 +1,6 @@
 <!--HTML-->
 <template>
+  <h1>購物車</h1>
   <div class="cart">
     <table v-if="cartItems.length > 0">
       <thead>
@@ -40,13 +41,15 @@
       <h3>結帳總金額: {{ totalAmount }}</h3>
     </div>
   </div>
+  <button @click="navigateToCheckout">前往結帳</button>
 </template>
 
 <!--JS/TS-->
 
 <script lang="ts" setup name="cart">
 import { commodity } from "@/models/commodity";
-import { computed, defineProps, ref } from "vue";
+import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
 //data
 /*
 let cart = reactive([
@@ -75,6 +78,12 @@ const totalAmount = computed(() =>
 const props = defineProps<{
   cartItems: commodity[];
 }>();
+
+const router = useRouter();
+const navigateToCheckout = () => {
+  router.push("/checkout"); // 導航到結帳頁面
+};
+
 // 分頁相關的 data
 const currentPage = ref(1); // 當前頁碼
 const itemsPerPage = 5; // 每頁顯示 5 個商品
@@ -108,7 +117,10 @@ function removeItem(id: number) {
 }*/
 
 // emit 事件通知父組件
-const emit = defineEmits(["remove-from-cart"]);
+const emit = defineEmits<{
+  (e: "remove-from-cart", id: number): void;
+  (e: "add-to-cart", product: commodity): void;
+}>();
 
 function nextPage() {
   if (currentPage.value < totalPages.value) {

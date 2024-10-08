@@ -42,6 +42,7 @@ const emit = defineEmits(["add-to-cart"]);
 const newProduct = ref<commodity>(new commodity(Date.now(), "", 0, 1));
 // 新增商品功能
 function addProduct() {
+  console.log("addProduct called", newProduct.value); // 加入這行
   // 檢查商品名稱和價格是否有效
   if (newProduct.value.name && newProduct.value.price > 0) {
     const productToAdd = new commodity(
