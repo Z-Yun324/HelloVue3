@@ -11,24 +11,31 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in cartItems" :key="item.id">
+        <tr v-for="item in paginatedItems" :key="item.id">
           <td>{{ item.name }}</td>
           <td>{{ item.price }}</td>
           <td>
-            <!-- <button @click="decreaseQuantity(item)">-</button> -->
             <input
               type="number"
               v-model="item.quantity"
               @input="updateTotalPrice(item)"
               min="1"
             />
-            <!-- <button @click="increaseQuantity(item)">+</button> -->
           </td>
           <td>{{ item.totalPrice }}</td>
           <td><button @click="removeItem(item.id)">刪除</button></td>
         </tr>
       </tbody>
     </table>
+
+    <div class="pagination">
+      <button @click="prevPage" :disabled="currentPage === 1">上一頁</button>
+      <span>頁數: {{ currentPage }} / {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages">
+        下一頁
+      </button>
+    </div>
+
     <div class="summary">
       <h3>結帳總金額: {{ totalAmount }}</h3>
     </div>
@@ -39,7 +46,7 @@
 
 <script lang="ts" setup name="cart">
 import { commodity } from "@/models/commodity";
-import { computed } from "vue";
+import { computed, defineProps, ref } from "vue";
 //data
 /*
 let cart = reactive([
@@ -68,6 +75,21 @@ const totalAmount = computed(() =>
 const props = defineProps<{
   cartItems: commodity[];
 }>();
+// 分頁相關的 data
+const currentPage = ref(1); // 當前頁碼
+const itemsPerPage = 5; // 每頁顯示 5 個商品
+
+// 計算總頁數
+const totalPages = computed(() => {
+  return Math.ceil(props.cartItems.length / itemsPerPage);
+});
+
+// 計算當前頁面的商品
+const paginatedItems = computed(() => {
+  const startIndex = (currentPage.value - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  return props.cartItems.slice(startIndex, endIndex);
+});
 //function
 /*
 function updateTotalPrice(item: {
@@ -87,6 +109,19 @@ function removeItem(id: number) {
 
 // emit 事件通知父組件
 const emit = defineEmits(["remove-from-cart"]);
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+}
+
+// 切換到上一頁
+function prevPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+}
 
 // 結帳總金額
 const totalAmount = computed(() =>
@@ -137,5 +172,14 @@ th,
 td,
 .summary {
   max-width: 100%; /* 表格、內容自動調整 */
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.pagination button {
+  margin: 0 10px;
+  padding: 5px 10px;
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="app">
     <h1>購物車</h1>
     <Commodity @add-to-cart="addToCart" />
-    <Cart :cartItems="cartItems" @remove-item="removeFromCart" />
+    <Cart :cartItems="cartItems" @remove-from-cart="removeFromCart" />
   </div>
 </template>
 
