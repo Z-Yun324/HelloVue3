@@ -3,7 +3,7 @@
     <!--
     <Commodity @add-to-cart="addToCart" />
     <Cart :cartItems="cartItems" @remove-from-cart="removeFromCart" /> -->
-    <nav>
+    <nav class="navbar">
       <router-link to="/cart">購物車</router-link>
       <router-link to="/">新增</router-link>
     </nav>
@@ -46,5 +46,11 @@ function removeFromCart(id: number) {
 .app {
   max-width: 100%;
   background-color: rgb(178, 214, 214);
+}
+.navbar {
+  padding: 1rem; /* 內邊距 */
+  display: flex; /* 使用 flex 排列 */
+  justify-content: space-around; /* 讓項目之間均勻分布 */
+  align-items: center; /* 垂直居中 */
 }
 </style>
