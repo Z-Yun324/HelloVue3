@@ -1,6 +1,6 @@
 <!--HTML-->
 <template>
-  <h1>購物車</h1>
+  <hr />
   <div class="cart">
     <table v-if="cartItems.length > 0">
       <thead>
@@ -193,5 +193,11 @@ td,
 .pagination button {
   margin: 0 10px;
   padding: 5px 10px;
+}
+.hr {
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
 }
 </style>

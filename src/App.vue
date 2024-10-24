@@ -1,12 +1,9 @@
 <template>
-  <div class="app">
+  <div class="bg-slate-500">
     <!--
     <Commodity @add-to-cart="addToCart" />
     <Cart :cartItems="cartItems" @remove-from-cart="removeFromCart" /> -->
-    <nav class="navbar">
-      <router-link to="/cart">購物車</router-link>
-      <router-link to="/">新增</router-link>
-    </nav>
+    <FrontpageNavigation />
     <router-view
       :cartItems="cartItems"
       @remove-from-cart="removeFromCart"
@@ -15,9 +12,10 @@
   </div>
 </template>
 
-<script lang="ts" setup name="App">
+<script lang="ts" setup>
 import { commodity } from "@/models/commodity";
 import { ref } from "vue";
+import FrontpageNavigation from "./components/FrontpageNavigation.vue";
 
 // 購物車清單
 const cartItems = ref<commodity[]>([]);
@@ -41,16 +39,3 @@ function removeFromCart(id: number) {
   cartItems.value = cartItems.value.filter((item) => item.id !== id);
 }
 </script>
-
-<style>
-.app {
-  max-width: 100%;
-  background-color: rgb(178, 214, 214);
-}
-.navbar {
-  padding: 1rem; /* 內邊距 */
-  display: flex; /* 使用 flex 排列 */
-  justify-content: space-around; /* 讓項目之間均勻分布 */
-  align-items: center; /* 垂直居中 */
-}
-</style>
